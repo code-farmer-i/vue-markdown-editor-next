@@ -1,7 +1,7 @@
 {
   "name": "@kangc/v-md-editor",
   "version": "1.2.11",
-  "description": "A markdown editor built on Vue",
+  "description": "A markdown editor built on Vue3.0 Composition Api",
   "main": "lib/base-editor.js",
   "unpkg": "lib/base-editor.js",
   "typings": "types/index.d.ts",
