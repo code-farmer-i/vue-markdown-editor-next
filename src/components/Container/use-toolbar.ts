@@ -1,9 +1,9 @@
 import { ref, computed } from 'vue';
 // types
 import { Ref } from 'vue';
-import { Props as ToolbarProps } from '../Toolbar/types';
+import { Toolbars } from '../Toolbar/types';
 
-function getToolbarConfig(toolbars: ToolbarProps['toolbars'], toolbarStr: string) {
+function getToolbarConfig(toolbars: Toolbars, toolbarStr: string) {
   return toolbarStr
     .split('|')
     .map((group: string) =>
@@ -16,7 +16,7 @@ export default function useToolbar({
   leftToolbar,
   rightToolbar,
 }: {
-  toolbars: ToolbarProps['toolbars'];
+  toolbars: Toolbars;
   leftToolbar: string;
   rightToolbar: string;
 }) {

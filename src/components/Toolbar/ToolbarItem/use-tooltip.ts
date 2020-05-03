@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, unref } from 'vue';
 // types
 import { Ref } from 'vue';
 
@@ -18,7 +18,7 @@ export default function useTooltip({
   function showTooltip(e: MouseEvent): void {
     const { target } = e;
 
-    if ((target !== rootEl.value && target !== menuCtrlEl.value) || menuActive.value) {
+    if ((target !== unref(rootEl) && target !== unref(menuCtrlEl)) || unref(menuActive)) {
       hideTooltip();
 
       return;
@@ -26,12 +26,12 @@ export default function useTooltip({
 
     if (timmer) clearTimeout(timmer);
 
-    const selfElRect = rootEl.value.getBoundingClientRect();
+    const selfElRect = unref(rootEl).getBoundingClientRect();
     const x = e.clientX - selfElRect.left;
     const y = e.clientY - selfElRect.top;
 
     timmer = setTimeout(() => {
-      tooltipRef.value.show({
+      unref(tooltipRef).show({
         x: x - 2,
         y: y + 20,
       });
@@ -41,7 +41,7 @@ export default function useTooltip({
   function hideTooltip(): void {
     if (timmer) clearTimeout(timmer);
 
-    tooltipRef.value.hide();
+    unref(tooltipRef).hide();
   }
 
   return {

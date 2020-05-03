@@ -79,8 +79,9 @@ import Toolbar from '../Toolbar/index.vue';
 import useEffect from '@/hooks/useEffect';
 import { addResizeListener, removeResizeListener } from '@/utils/resize-event';
 // types
+import { Toolbars } from '../Toolbar/types';
 import { Mode } from './types';
-import { Ref, SetupContext } from 'vue';
+import { Ref, SetupContext, PropType } from 'vue';
 import { ToolbarConfig } from '../Toolbar/ToolbarItem/types';
 import { MenuItem } from '../Toolbar/ToolbarItem/menu/types';
 
@@ -99,14 +100,14 @@ export default defineComponent({
       default: '',
     },
     toolbars: {
-      type: Object,
+      type: Object as PropType<Toolbars>,
       default: () => ({}),
     },
     fullscreen: Boolean,
     height: String,
     noresize: Boolean,
     disabledMenus: {
-      type: Array,
+      type: Array as PropType<string[]>,
       default: () => [],
     },
     leftAreaVisible: Boolean,
@@ -116,7 +117,7 @@ export default defineComponent({
       default: '200px',
     },
     mode: {
-      type: String,
+      type: String as PropType<Mode>,
       default: Mode.editable,
     },
   },
@@ -160,7 +161,6 @@ export default defineComponent({
     );
 
     return {
-      ...props,
       toolbarHeight,
       leftToolbarGroup,
       rightToolbarGroup,

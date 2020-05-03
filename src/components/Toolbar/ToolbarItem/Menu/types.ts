@@ -17,7 +17,3 @@ export interface MenuItem {
   text?: string;
   render?: RenderFunction;
 }
-
-export interface Props extends MenuConfig {
-  visible?: boolean;
-}

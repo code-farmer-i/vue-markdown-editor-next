@@ -27,7 +27,8 @@ import { defineComponent, inject, ComponentPublicInstance } from 'vue';
 //components
 import ToolbarItem from './ToolbarItem/index.vue';
 // types
-// import { Props } from './types';
+import { Toolbars } from './types';
+import { PropType } from 'vue';
 import { MenuItem } from './ToolbarItem/menu/types';
 import { ToolbarConfig, StringFn, BooleanFn } from './ToolbarItem/types';
 
@@ -37,15 +38,17 @@ export default defineComponent({
     [ToolbarItem.name]: ToolbarItem,
   },
   props: {
-    groups: Array,
+    groups: Array as PropType<string[]>,
     toolbars: {
-      type: Object,
+      type: Object as PropType<Toolbars>,
       default: () => ({}),
     },
-    disabledMenus: Array,
+    disabledMenus: Array as PropType<string[]>,
   },
   setup(props) {
-    const markdownEditor = inject('markdownEditor');
+    // TODO
+    // const markdownEditor = inject('markdownEditor');
+    const markdownEditor = {};
 
     const getConfig = function (toolbarName: string, configName: keyof ToolbarConfig) {
       const toolbarConfig = props.toolbars[toolbarName];
@@ -54,6 +57,11 @@ export default defineComponent({
       return typeof value === 'function'
         ? (value as StringFn | BooleanFn)(markdownEditor as ComponentPublicInstance)
         : value;
+    };
+
+    return {
+      ...props,
+      getConfig,
     };
   },
 });

@@ -1,10 +1,11 @@
+import { unref } from 'vue';
 // types
 import { Ref } from 'vue';
 import { MenuItem } from './types';
 
 export function calculateLayout(rootEl: Ref): { left?: number; right?: number } {
   // 容器右边框距离可视区域左侧的距离
-  const { right } = rootEl.value.getBoundingClientRect();
+  const { right } = unref(rootEl).getBoundingClientRect();
   const windowWidth = document.documentElement.clientWidth;
 
   if (windowWidth - right < 0) {

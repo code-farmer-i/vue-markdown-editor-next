@@ -11,15 +11,15 @@
         'v-md-editor__toolbar-item--menu': hasMenu
       }
     ]"
-    v-clickoutside="hideMenu"
     @mousedown.prevent
-    @mouseleave="handleHideTooltip"
+    @mouseleave="hideTooltip"
     @mousemove="showTooltip"
     @click.stop="handleClick"
+    ref="rootEl"
   >
     {{ text }}
     <v-md-tooltip
-      :ref="el => tooltipRef = el"
+      ref="tooltipRef"
       :text="title"
     />
     <v-md-menu
@@ -35,7 +35,7 @@
     <i
       v-if="hasMenu"
       class="v-md-icon-arrow-down v-md-editor__menu-ctrl"
-      :ref="el => menuCtrlEl = el"
+      ref="menuCtrlEl"
     />
   </li>
 </template>
@@ -43,16 +43,16 @@
 <script lang="ts">
 import Tooltip from './Tooltip/index.vue';
 import Menu from './Menu/index.vue';
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, unref } from 'vue';
 import useMenu from './use-menu';
 import useTooltip from './use-tooltip';
 
 // utils
-import Clickoutside from '@/utils/clickoutside';
+// import Clickoutside from '@/utils/clickoutside';
 
 // types
-import { Ref, SetupContext } from 'vue';
-import { Props } from './types';
+import { Ref, SetupContext, PropType } from 'vue';
+import { ToolbarConfig } from './types';
 
 export default defineComponent({
   name: 'toolbar-item',
@@ -60,10 +60,29 @@ export default defineComponent({
     [Tooltip.name]: Tooltip,
     [Menu.name]: Menu,
   },
-  setup(props: Props, ctx: SetupContext) {
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    title: String,
+    active: Boolean,
+    text: String,
+    icon: String,
+    menus: {
+      type: [Array, Object] as PropType<ToolbarConfig['menus']>,
+      default: () => [],
+    },
+    disabledMenus: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+  },
+  setup(props, ctx: SetupContext) {
     const rootEl: Ref = ref(null);
+    const menuCtrlEl: Ref = ref(null);
 
-    const { menuActive, menuCtrlEl, menuItems, hasMenu, menuMode } = useMenu(props);
+    const { menuActive, menuItems, hasMenu, menuMode, showMenu, hideMenu } = useMenu(props);
     const { tooltipRef, showTooltip, hideTooltip } = useTooltip({
       rootEl,
       menuActive,
@@ -71,14 +90,28 @@ export default defineComponent({
     });
 
     return {
+      // refs
+      rootEl,
+      menuCtrlEl,
+      tooltipRef,
+      // states
       menuActive,
       menuItems,
       hasMenu,
       menuMode,
-      menuCtrlEl,
-      tooltipRef,
+      // methods
       showTooltip,
       hideTooltip,
+      handleClick(e: MouseEvent) {
+        ctx.emit('click');
+        unref(menuActive) ? hideMenu() : showMenu();
+
+        if (hasMenu) {
+          hideTooltip();
+        } else {
+          showTooltip(e);
+        }
+      },
     };
   },
 });

@@ -11,7 +11,3 @@ export interface ToolbarConfig {
   icon: string | StringFn;
   menus: MenuConfig | MenuItem[];
 }
-
-export interface Props extends ToolbarConfig {
-  disabledMenus: string[];
-}

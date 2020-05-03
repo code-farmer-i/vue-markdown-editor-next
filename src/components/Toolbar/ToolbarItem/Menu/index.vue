@@ -48,17 +48,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, ref, watch, SetupContext, nextTick } from 'vue';
+import { defineComponent, reactive, computed, ref, watch, nextTick, toRefs } from 'vue';
 import * as methods from './methods';
 import useVisible from './use-visible';
 
 // types
-import { Ref } from 'vue';
-import { Props, MenuItem } from './types';
+import { Ref, PropType, SetupContext } from 'vue';
+import { MenuItem } from './types';
 
 export default defineComponent({
   name: 'v-md-menu',
-  setup(props: Props, ctx: SetupContext) {
+  props: {
+    mode: {
+      type: String,
+      default: 'panel',
+    },
+    menus: Array as PropType<MenuItem[]>,
+    itemWidth: {
+      type: String,
+      default: '30px',
+    },
+    rowNum: {
+      type: Number,
+      default: 10,
+    },
+    visible: Boolean as PropType<boolean>,
+  },
+  setup(props, ctx: SetupContext) {
     const rootEl: Ref = ref(null);
     const states = reactive({
       style: {},
@@ -78,7 +94,8 @@ export default defineComponent({
     };
 
     return {
-      ...props,
+      // states
+      ...toRefs(states),
       ...methods,
       handlerClick,
     };

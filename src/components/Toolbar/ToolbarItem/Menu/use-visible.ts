@@ -1,12 +1,11 @@
 import { watch } from 'vue';
 
 // types
-import { SetupContext } from 'vue';
-import { Props } from './types';
+import { SetupContext, PropType } from 'vue';
 
 type Hook = (visible: boolean) => void;
 
-export default function (props: Props, ctx: SetupContext) {
+export default function (props: { visible?: boolean }, ctx: SetupContext) {
   const hooks: Hook[] = [];
 
   watch(

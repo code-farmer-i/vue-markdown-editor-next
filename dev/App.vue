@@ -1,5 +1,9 @@
 <template>
-  <v-md-container height="300px"></v-md-container>
+  <v-md-container
+    height="300px"
+    left-toolbar="a b c"
+    :toolbars="toolbars"
+  ></v-md-container>
 </template>
 
 <script lang="ts">
@@ -11,7 +15,29 @@ export default defineComponent({
     [Container.name]: Container,
   },
   setup() {
-    return {};
+    return {
+      toolbars: {
+        a: {
+          text: 'a',
+          title: 'a',
+          menus: [
+            {
+              name: '11',
+              text: 22,
+              title: 'menu',
+            },
+          ],
+        },
+        b: {
+          text: 'a',
+          title: 'b',
+        },
+        c: {
+          text: 'a',
+          title: 'c',
+        },
+      },
+    };
   },
 });
 </script>

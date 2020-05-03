@@ -7,20 +7,24 @@
         top: `${position.y}px`
       }"
       class="v-md-editor__tooltip"
+      ref="rootEl"
     >{{ text }}</div>
   </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, nextTick } from 'vue';
+import { defineComponent, reactive, ref, unref, toRefs, nextTick } from 'vue';
 
 // types
-import { Props, Position } from './types';
+import { Position } from './types';
 import { Ref } from 'vue';
 
 export default defineComponent({
   name: 'v-md-tooltip',
-  setup(props: Props) {
+  props: {
+    text: String,
+  },
+  setup(props) {
     const rootEl: Ref = ref(null);
     const states = reactive({
       position: {
@@ -47,7 +51,7 @@ export default defineComponent({
 
     const calculateLayout = function (): void {
       // 容器右边框距离可视区域左侧的距离
-      const { right } = rootEl.value.getBoundingClientRect();
+      const { right } = unref(rootEl).getBoundingClientRect();
       const windowWidth = document.documentElement.clientWidth;
 
       if (windowWidth - right < 0) {
@@ -56,7 +60,12 @@ export default defineComponent({
     };
 
     return {
-      ...states,
+      // refs
+      rootEl,
+      // states
+      ...toRefs(states),
+      // methods
+      show,
       hide,
     };
   },
