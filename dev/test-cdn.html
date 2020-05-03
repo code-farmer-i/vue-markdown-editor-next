@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
+    />
+    <title>vue-markdown-editor</title>
+    <link rel="stylesheet" type="text/css" href="..//lib/style/base-editor.css" />
+    <script>
+      window.Promise ||
+        document.write('<script src="//img.yzcdn.cn/huiyi/build/h5/js/pinkie.min.js"><\/script>');
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <v-md-editor height="400px"></v-md-editor>
+    </div>
+    <script src="http://unpkg.com/vue"></script>
+    <script src="../lib/base-editor.js"></script>
+    <script src="../lib/theme/vuepress.js"></script>
+    <script>
+      window.onload = function () {
+        const vm = new Vue({
+          el: '#app',
+        });
+
+        console.log(vm);
+      };
+    </script>
+  </body>
+</html>
