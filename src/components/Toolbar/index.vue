@@ -60,7 +60,6 @@ export default defineComponent({
     };
 
     return {
-      ...props,
       getConfig,
     };
   },

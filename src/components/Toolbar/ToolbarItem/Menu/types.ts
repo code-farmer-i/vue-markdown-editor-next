@@ -17,3 +17,11 @@ export interface MenuItem {
   text?: string;
   render?: RenderFunction;
 }
+
+export interface Props {
+  mode?: MenuMode;
+  menus?: MenuItem[];
+  itemWidth?: string;
+  rowNum?: number;
+  visible?: boolean;
+}

@@ -51,8 +51,18 @@ import useTooltip from './use-tooltip';
 // import Clickoutside from '@/utils/clickoutside';
 
 // types
-import { Ref, SetupContext, PropType } from 'vue';
+import { Ref, SetupContext, PropType, getCurrentInstance } from 'vue';
 import { ToolbarConfig } from './types';
+
+interface Props {
+  name: string;
+  title?: string;
+  active?: boolean;
+  text?: string;
+  icon?: string;
+  menus: ToolbarConfig['menus'];
+  disabledMenus: string[];
+}
 
 export default defineComponent({
   name: 'toolbar-item',
@@ -70,15 +80,15 @@ export default defineComponent({
     text: String,
     icon: String,
     menus: {
-      type: [Array, Object] as PropType<ToolbarConfig['menus']>,
+      type: [Array, Object],
       default: () => [],
     },
     disabledMenus: {
-      type: Array as PropType<string[]>,
+      type: Array,
       default: () => [],
     },
-  },
-  setup(props, ctx: SetupContext) {
+  } as any,
+  setup(props: Props, ctx: SetupContext) {
     const rootEl: Ref = ref(null);
     const menuCtrlEl: Ref = ref(null);
 

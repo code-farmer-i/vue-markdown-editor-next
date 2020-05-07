@@ -54,16 +54,16 @@ import useVisible from './use-visible';
 
 // types
 import { Ref, PropType, SetupContext } from 'vue';
-import { MenuItem } from './types';
+import { MenuItem, MenuMode, Props } from './types';
 
 export default defineComponent({
   name: 'v-md-menu',
   props: {
     mode: {
       type: String,
-      default: 'panel',
+      default: MenuMode.panel,
     },
-    menus: Array as PropType<MenuItem[]>,
+    menus: Array,
     itemWidth: {
       type: String,
       default: '30px',
@@ -72,9 +72,9 @@ export default defineComponent({
       type: Number,
       default: 10,
     },
-    visible: Boolean as PropType<boolean>,
-  },
-  setup(props, ctx: SetupContext) {
+    visible: Boolean,
+  } as any,
+  setup(props: Props, ctx: SetupContext) {
     const rootEl: Ref = ref(null);
     const states = reactive({
       style: {},
